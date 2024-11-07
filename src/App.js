@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import createLorem from "./lorem.js";
 
-function App() {
+const App = () => {
+  const [wordCount, setWordCount] = useState(0);
+  const [lorem, setLorem] = useState([]);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLorem(createLorem(wordCount));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section>
+      <h1>Lorem Gibberish generater</h1>
+      <form>
+        <div>
+          <label htmlFor="wordCount">How many words</label>
+          <input
+            type="number"
+            id="wordCount"
+            value={wordCount}
+            onChange={(event) => setWordCount(event.target.value)}
+            maxLength={3}
+            step={10}
+          ></input>
+        </div>
+        <div>
+          <button type="submit" onClick={handleSubmit}>
+            Get
+          </button>
+        </div>
+      </form>
+      <article>
+        <ul>
+          {lorem.map((para, index) => {
+            return <li key={index}>{para}</li>;
+          })}
+        </ul>
+      </article>
+    </section>
   );
-}
+};
 
 export default App;
